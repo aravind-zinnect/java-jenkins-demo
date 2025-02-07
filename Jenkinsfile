@@ -9,8 +9,8 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/aravind-zinnect/java-jenkins-demo.git'
-            }
+        git branch: 'main', url: 'https://github.com/aravind-zinnect/java-jenkins-demo.git'
+    }
         }
 
         stage('Build with Maven') {

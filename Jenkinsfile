@@ -2,20 +2,20 @@ pipeline {
     agent any 
 
     environment {
-        MAVEN_HOME = tool 'Maven' // Use Maven installed in Jenkins
+        MAVEN_HOME = tool 'maven123' // Use the name from Jenkins settings
         PATH = "${MAVEN_HOME}/bin;${env.PATH}" // Add Maven to PATH
     }
 
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/YOUR_USERNAME/java-jenkins-demo.git'
+                git 'https://github.com/aravind-zinnect/java-jenkins-demo.git'
             }
         }
 
         stage('Build with Maven') {
             steps {
-                bat 'mvn clean package'
+                bat '"%MAVEN_HOME%\\bin\\mvn" clean package'
             }
         }
 
@@ -29,7 +29,7 @@ pipeline {
             steps {
                 emailext subject: "Jenkins Build - ${currentBuild.fullDisplayName}",
                          body: "Build ${currentBuild.result}: Check Jenkins for details.",
-                         to: 'saravind@sirahu.com'
+                         to: 'your-email@example.com'
             }
         }
     }
@@ -37,7 +37,7 @@ pipeline {
     post {
         always {
             echo 'Cleaning up workspace...'
-            bat 'rd /s /q *' // Windows equivalent of deleteDir()
+            cleanWs() // Jenkins built-in cleanup method
         }
     }
 }
